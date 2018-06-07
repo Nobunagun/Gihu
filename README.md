@@ -11,10 +11,10 @@
 		且Github上已经有较多的类似训练模型。考虑到两点1.densenet需要计算资源较多以及时间成本也较高；2.我们想自己搭建一套模型，不想使用别人的Fine-tuning模型，因此我们选择了白翔老师在2015年给出的一个轻量级的时间序列网络CRNN，具体结构如下：    
 		
 [image](https://github.com/Nobunagun/Gihu/blob/master/1410963932c7303517345976372c5d56_681e5ffa-d31d-402b-ac6d-4aed845817b9.jpg)     	
-[image](https://github.com/Nobunagun/Gihu/blob/master/285567223310761237.png)     	
+  	
 		
 　　本工程所采用的模型为CNN+biLSTM+CTC Loss来完成这两个步骤，从而实现端到端的文字识别，网络模型如图所示：   
-　　　
+[image](https://github.com/Nobunagun/Gihu/blob/master/285567223310761237.png)   
 
 　　模型的定义文件在根目录下的**model_crnn.py**文件中。网络输入的张量形状为(batch_size, 512, 32, 1)，，CNN将输入图片在长度和宽度方向上进行特征提取，其中Max pooling中的窗口大小为1x2，保证提出的特征具有横向的长度，有利于比较长的文本的识别，同时加入了BatchNorm，有助于模型收敛，CNN输出张量形状为(batch_size, 125, 1, 512)；之后添加了2层biLSTM，选用GRU单元，输出张量形状为(batch_size, 125, 512)，经过一个全连接层将输入从lstm隐层空间映射至标签空间，其输出张量形状为(125,batch_size,VOCNUM)，其中VOCNUM为标签字典的长度，最后计算出CTC Loss（输出字符串最大64个长度），通过Adam方法训练网络。    
 		
