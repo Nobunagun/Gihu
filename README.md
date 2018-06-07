@@ -10,8 +10,8 @@
 		CNN中常采用resnet系列(densenet)和inception系列，RNN中常用双向LSTM，对于较长的识别任务CTC_loss常会给出较好的结果，seq2seq_loss结合attention机制在较短文字的识别也会给出不错的结果。
 		且Github上已经有较多的类似训练模型。考虑到两点1.densenet需要计算资源较多以及时间成本也较高；2.我们想自己搭建一套模型，不想使用别人的Fine-tuning模型，因此我们选择了白翔老师在2015年给出的一个轻量级的时间序列网络CRNN，具体结构如下：    
 		
-<div align=center>![image](https://github.com/Nobunagun/Gihu/blob/master/1410963932c7303517345976372c5d56_681e5ffa-d31d-402b-ac6d-4aed845817b9.jpg?raw=true)     	
-<div align=center>![enter image description here](https://github.com/Nobunagun/Gihu/blob/master/285567223310761237.png?raw=true)     	
+<div align=center>![image](https://github.com/Nobunagun/Gihu/blob/master/1410963932c7303517345976372c5d56_681e5ffa-d31d-402b-ac6d-4aed845817b9.jpg)     	
+<div align=center>![image](https://github.com/Nobunagun/Gihu/blob/master/285567223310761237.png)     	
 		
 　　本工程所采用的模型为CNN+biLSTM+CTC Loss来完成这两个步骤，从而实现端到端的文字识别，网络模型如图所示：   
 　　　
