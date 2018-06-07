@@ -1,16 +1,16 @@
 #一、运行说明   
-　　1.本OCR工程是在windows平台下使用Python-3.6和tensorflow-1.2.1完成的。
-		2.本工程文件中的src中的py文件均放在根目录下，训练好的模型文件在**model**中。
-　　3.运行时，调用方式也更改为**./run.sh**，请在根目录下**test**文件夹中放入需要进行预测的对象图片，最后输出的csv文件会保存至**output**文件夹中。   
-　　4.如果run.sh运行失败，也可以直接运行根目录下的**predicate.py**文件*。    
-　　5.如果程序无法获取根目录的路径，请将config.py中第34行的变量**IMAGE_DIR **赋值为**根目录的路径**
+　　1.本OCR工程是在windows平台下使用Python-3.6和tensorflow-1.2.1完成的。    
+　　2.本工程文件中的src中的py文件均放在根目录下，训练好的模型文件在**model**中。    
+　　3.运行时，调用方式也更改为**./run.sh**，请在根目录下**test**文件夹中放入需要进行预测的对象图片，最后输出的csv文件会保存至**output**文件夹中。         
+　　4.如果run.sh运行失败，也可以直接运行根目录下的**predicate.py**文件*。       
+　　5.如果程序无法获取根目录的路径，请将config.py中第34行的变量**IMAGE_DIR **赋值为**根目录的路径**   
 #二、模型说明    
 >OCR一般包含两步: 1. detection-->找到包含文字的区域(proposal); 2. classification-->识别区域中的文字。
 		考虑本题目中的文字区域已实现标记好，因此无需进行CTPN这一步，直接对图片进行识别。这一方面的工作近年来采用cnn+rnn的模型比较火热，最后结合CTC_loss进行非定长的loss计算。
 		CNN中常采用resnet系列(densenet)和inception系列，RNN中常用双向LSTM，对于较长的识别任务CTC_loss常会给出较好的结果，seq2seq_loss结合attention机制在较短文字的识别也会给出不错的结果。
 		且Github上已经有较多的类似训练模型。考虑到两点1.densenet需要计算资源较多以及时间成本也较高；2.我们想自己搭建一套模型，不想使用别人的Fine-tuning模型，因此我们选择了白翔老师在2015年给出的一个轻量级的时间序列网络CRNN，具体结构如下：    
 		
-<div align=center>![enter image description here](https://github.com/Nobunagun/Gihu/blob/master/1410963932c7303517345976372c5d56_681e5ffa-d31d-402b-ac6d-4aed845817b9.jpg?raw=true)     	
+<div align=center>![image](https://github.com/Nobunagun/Gihu/blob/master/1410963932c7303517345976372c5d56_681e5ffa-d31d-402b-ac6d-4aed845817b9.jpg?raw=true)     	
 <div align=center>![enter image description here](https://github.com/Nobunagun/Gihu/blob/master/285567223310761237.png?raw=true)     	
 		
 　　本工程所采用的模型为CNN+biLSTM+CTC Loss来完成这两个步骤，从而实现端到端的文字识别，网络模型如图所示：   
